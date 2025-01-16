@@ -1,23 +1,31 @@
 import { createAsync, type RouteDefinition } from "@solidjs/router";
-import { getUser, logout } from "~/lib";
 
 export const route = {
-  preload() {
-    getUser();
-  }
+  preload() {},
 } satisfies RouteDefinition;
 
+const testServerEnvs = () => {
+  "use server";
+  console.log("[server | process.env]", process.env.NO_PREFIX_ENV);
+  console.log("[server | process.env]", process.env.VITE_HELLO);
+
+  console.log("[server | import.meta.env]", import.meta.env.NO_PREFIX_ENV);
+  console.log("[server | import.meta.env]", import.meta.env.VITE_HELLO);
+};
+
+const testClientEnvs = () => {
+  console.log("[client | process.env]", process.env.NO_PREFIX_ENV);
+  console.log("[client | process.env]", process.env.VITE_HELLO);
+
+  console.log("[client | import.meta.env]", import.meta.env.NO_PREFIX_ENV);
+  console.log("[client | import.meta.env]", import.meta.env.VITE_HELLO);
+};
+
 export default function Home() {
-  const user = createAsync(() => getUser(), { deferStream: true });
   return (
-    <main class="w-full p-4 space-y-2">
-      <h2 class="font-bold text-3xl">Hello {user()?.username}</h2>
-      <h3 class="font-bold text-xl">Message board</h3>
-      <form action={logout} method="post">
-        <button name="logout" type="submit">
-          Logout
-        </button>
-      </form>
+    <main>
+      <button onClick={testServerEnvs}>click for server log</button>
+      <button onClick={testClientEnvs}>click for client log</button>
     </main>
   );
 }

@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "vinxi dev",
     "build": "vinxi build",
-    "start": "vinxi start"
+    "start": "vinxi start",
+    "docker:up": "docker compose -f docker-compose.yml up -d --build"
   },
   "devDependencies": {
     "@types/node": "^20.12.7"
